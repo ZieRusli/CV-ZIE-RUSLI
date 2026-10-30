@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Maker Anak SMA/SMK</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @media print {
+            .print\:hidden { display: none !important; }
+            .print\:w-full { width: 100% !important; }
+            .print\:m-0 { margin: 0 !important; }
+            .print\:border-none { border: none !important; }
+            .print\:shadow-none { box-shadow: none !important; }
+            .print\:rounded-none { border-radius: 0 !important; }
+            body { background-color: white !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 antialiased selection:bg-indigo-500 selection:text-white min-h-screen">
+
+    <!-- Top Navbar -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 border-b border-slate-800 shadow-md print:hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-600 rounded-xl shadow-lg">
+                    <i class="fa-solid fa-wand-magic-sparkles text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight">CV Maker Anak SMA/SMK</h1>
+                    <p class="text-[11px] text-slate-400">Buat CV Cepat, Modern & Siap Cetak</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- Color Theme Selector -->
+                <div class="hidden sm:flex items-center gap-1.5 bg-slate-800 p-1 rounded-xl border border-slate-700">
+                    <i class="fa-solid fa-palette text-slate-400 ml-1.5 text-xs"></i>
+                    <button onclick="setTheme('indigo')" class="w-5 h-5 rounded-lg bg-indigo-600 transition hover:scale-110 focus:ring-2 focus:ring-white"></button>
+                    <button onclick="setTheme('emerald')" class="w-5 h-5 rounded-lg bg-emerald-600 transition hover:scale-110 focus:ring-2 focus:ring-white"></button>
+                    <button onclick="setTheme('amber')" class="w-5 h-5 rounded-lg bg-amber-500 transition hover:scale-110 focus:ring-2 focus:ring-white"></button>
+                    <button onclick="setTheme('rose')" class="w-5 h-5 rounded-lg bg-rose-600 transition hover:scale-110 focus:ring-2 focus:ring-white"></button>
+                </div>
+
+                <button onclick="window.print()" class="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs shadow-lg transition transform active:scale-95">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Cetak / Download PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+            <!-- FORM EDITOR (Left Column) -->
+            <div class="lg:col-span-5 space-y-5 print:hidden">
+                
+                <!-- Profil & Foto -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <h2 class="text-sm font-bold text-slate-800 pb-3 mb-3 border-b border-slate-100 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-user text-indigo-600"></i> Informasi Pribadi & Foto
+                        </span>
+                        <span class="text-[10px] font-medium bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">Langkah 1</span>
+                    </h2>
+                    
+                    <div class="space-y-3">
+                        <!-- Upload Foto Section -->
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">
+                                <i class="fa-solid fa-camera text-slate-500 mr-1"></i> Foto Profil CV
+                            </label>
+                            <div class="flex items-center gap-3">
+                                <div id="photoPreviewContainer" class="relative shrink-0">
+                                    <img id="photoPreview" src="https://files.catbox.moe/33uyg8.jpeg" class="w-14 h-14 object-cover rounded-xl border-2 border-indigo-500 shadow-sm">
+                                </div>
+
+                                <div class="flex-1 space-y-1.5">
+                                    <label class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-lg text-xs font-semibold cursor-pointer hover:bg-indigo-100 transition">
+                                        <i class="fa-solid fa-upload"></i>
+                                        <span>Upload Foto</span>
+                                        <input type="file" id="photoInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                                    </label>
+                                    <button onclick="removePhoto()" class="text-[10px] text-red-500 hover:underline block">Hapus Foto</button>
+                                </div>
+                            </div>
+
+                            <!-- Frame Settings -->
+                            <div class="mt-3 pt-2 border-t border-slate-200/60 grid grid-cols-2 gap-2 text-[11px]">
+                                <div>
+                                    <span class="block text-slate-500 font-medium mb-1">Bentuk Frame</span>
+                                    <div class="flex gap-1">
+                                        <button onclick="setPhotoShape('rounded-full')" class="px-2 py-0.5 rounded border text-[10px] font-semibold bg-indigo-600 text-white">Bulat</button>
+                                        <button onclick="setPhotoShape('rounded-xl')" class="px-2 py-0.5 rounded border text-[10px] font-semibold bg-white text-slate-600">Kotak</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="block text-slate-500 font-medium mb-1">Ukuran Foto</span>
+                                    <div class="flex gap-1">
+                                        <button onclick="setPhotoSize('sm')" class="px-2 py-0.5 rounded border text-[10px] font-semibold bg-white text-slate-600">S</button>
+                                        <button onclick="setPhotoSize('md')" class="px-2 py-0.5 rounded border text-[10px] font-semibold bg-indigo-600 text-white">M</button>
+                                        <button onclick="setPhotoSize('lg')" class="px-2 py-0.5 rounded border text-[10px] font-semibold bg-white text-slate-600">L</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap</label>
+                            <input type="text" id="inputFullName" value="Muhammad Akmal Rusli" oninput="updateCV()" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status / Subtitle</label>
+                            <input type="text" id="inputTitle" value="MAPK Al-Hikmah" oninput="updateCV()" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Email</label>
+                                <input type="email" id="inputEmail" value="rusliakmal.2020@email.com" oninput="updateCV()" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">No. HP / WA</label>
+                                <input type="text" id="inputPhone" value="0858-9537-3558" oninput="updateCV()" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi</label>
+                            <input type="text" id="inputLocation" value="Tasikmalaya, Jawa Barat" oninput="updateCV()" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Deskripsi Ringkas</label>
+                            <textarea id="inputSummary" rows="4" oninput="updateCV()" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none">Pribadi yang tenang, teliti, dan memiliki tingkat fokus tinggi dalam menyelesaikan tugas secara mandiri maupun terstruktur. Berorientasi pada detail dan kualitas hasil kerja, serta terbiasa berpikir analitis dalam memecahkan masalah. Siap memberikan kontribusi optimal dan berkembang bersama tim profesional</textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PREVIEW DOCUMENT (Right Column) -->
+            <div class="lg:col-span-7 print:w-full print:m-0">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200/80 print:shadow-none print:border-none print:rounded-none">
+                    
+                    <!-- Header Banner -->
+                    <div id="cvHeader" class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white p-8 sm:p-10 relative overflow-hidden">
+                        <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                            
+                            <!-- Foto Profil -->
+                            <img id="cvPhoto" src="https://files.catbox.moe/33uyg8.jpeg" class="w-28 h-28 object-cover rounded-full border-4 border-white/30 shadow-xl">
+
+                            <div class="text-center sm:text-left flex-1">
+                                <h1 id="cvFullName" class="text-3xl sm:text-4xl font-extrabold tracking-tight uppercase mb-2">Muhammad Akmal Rusli</h1>
+                                <p id="cvTitle" class="text-sm sm:text-base font-medium text-white/90 mb-5">MAPK Al-Hikmah</p>
+
+                                <!-- Contact Badges -->
+                                <div class="flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
+                                    <div class="flex items-center gap-1.5 bg-white/15 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                                        <i class="fa-solid fa-envelope"></i>
+                                        <span id="cvEmail">rusliakmal.2020@email.com</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 bg-white/15 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                                        <i class="fa-solid fa-phone"></i>
+                                        <span id="cvPhone">0858-9537-3558</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 bg-white/15 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <span id="cvLocation">Tasikmalaya, Jawa Barat</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Body Content -->
+                    <div class="p-8 sm:p-10 space-y-6">
+                        
+                        <!-- Ringkasan / Tentang Saya (Layout Kesamping) -->
+                        <section class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6 bg-slate-50/70 p-5 rounded-2xl border border-slate-100">
+                            <div class="flex items-center gap-2 sm:w-40 shrink-0 border-b sm:border-b-0 sm:border-r border-slate-200/80 pb-3 sm:pb-0 sm:pr-4">
+                                <div class="p-2 bg-indigo-50 rounded-xl text-indigo-600 shadow-sm">
+                                    <i class="fa-solid fa-user text-sm"></i>
+                                </div>
+                                <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Tentang Saya</h2>
+                            </div>
+                            <p id="cvSummary" class="text-xs sm:text-sm leading-relaxed text-slate-600 flex-1">
+                                Pribadi yang tenang, teliti, dan memiliki tingkat fokus tinggi dalam menyelesaikan tugas secara mandiri maupun terstruktur. Berorientasi pada detail dan kualitas hasil kerja, serta terbiasa berpikir analitis dalam memecahkan masalah. Siap memberikan kontribusi optimal dan berkembang bersama tim profesional
+                            </p>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function updateCV() {
+            document.getElementById('cvFullName').innerText = document.getElementById('inputFullName').value || 'NAMA LENGKAP';
+            document.getElementById('cvTitle').innerText = document.getElementById('inputTitle').value || 'Status / Subtitle';
+            document.getElementById('cvEmail').innerText = document.getElementById('inputEmail').value || 'email@domain.com';
+            document.getElementById('cvPhone').innerText = document.getElementById('inputPhone').value || '08xx-xxxx-xxxx';
+            document.getElementById('cvLocation').innerText = document.getElementById('inputLocation').value || 'Kota, Provinsi';
+            document.getElementById('cvSummary').innerText = document.getElementById('inputSummary').value || 'Deskripsi singkat tentang diri Anda...';
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                    document.getElementById('cvPhoto').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removePhoto() {
+            document.getElementById('cvPhoto').src = '';
+            document.getElementById('photoPreview').src = '';
+        }
+
+        function setPhotoShape(shapeClass) {
+            const photo = document.getElementById('cvPhoto');
+            photo.className = photo.className.replace(/rounded-\w+/g, shapeClass);
+        }
+
+        function setPhotoSize(size) {
+            const photo = document.getElementById('cvPhoto');
+            const sizes = { sm: 'w-20 h-20', md: 'w-28 h-28', lg: 'w-36 h-36' };
+            photo.className = photo.className.replace(/w-\d+ h-\d+/g, sizes[size]);
+        }
+
+        function setTheme(color) {
+            const header = document.getElementById('cvHeader');
+            const themes = {
+                indigo: 'from-indigo-600 to-blue-700',
+                emerald: 'from-emerald-600 to-teal-700',
+                amber: 'from-amber-500 to-orange-600',
+                rose: 'from-rose-600 to-pink-600'
+            };
+            header.className = `bg-gradient-to-r ${themes[color]} text-white p-8 sm:p-10 relative overflow-hidden`;
+        }
+
+        // Initial update
+        updateCV();
+    </script>
+</body>
+</html>
